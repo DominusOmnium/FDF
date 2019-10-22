@@ -6,7 +6,7 @@
 /*   By: dkathlee <dkathlee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 02:39:25 by marvin            #+#    #+#             */
-/*   Updated: 2019/10/21 22:54:13 by dkathlee         ###   ########.fr       */
+/*   Updated: 2019/10/22 15:28:08 by dkathlee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int	main(int ac, char **av)
 	v = ft_memalloc(sizeof(t_view));
 	v->prev_p = ft_memalloc(sizeof(t_point));
 	v->mlx_ptr = mlx_init();
-	v->win_ptr = mlx_new_window(v->mlx_ptr, 1000, 1000, "TEST");
+	v->win_ptr = mlx_new_window(v->mlx_ptr, WIDTH, HEIGHT, "FdF");
 	mlx_mouse_hook(v->win_ptr, &mouse_hook, v);
 	mlx_loop(v->mlx_ptr);
 	return (0);
