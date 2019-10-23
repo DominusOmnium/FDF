@@ -6,13 +6,13 @@
 /*   By: dkathlee <dkathlee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 02:39:25 by marvin            #+#    #+#             */
-/*   Updated: 2019/10/22 15:28:08 by dkathlee         ###   ########.fr       */
+/*   Updated: 2019/10/23 12:08:21 by dkathlee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-int		prepare_points(t_point *p1, t_point *p2)
+int		prepare_points(t_point2D *p1, t_point2D *p2)
 {
 	int tmp;
 	int ret;
@@ -40,7 +40,7 @@ int		prepare_points(t_point *p1, t_point *p2)
 	return (ret);
 }
 
-void	draw_line(t_point *p, t_view *param)
+void	draw_line(t_point2D *p, t_view *param)
 {
 	int	error;
 	int	derr;
@@ -54,7 +54,7 @@ void	draw_line(t_point *p, t_view *param)
 	derr = (ABS(dir));
 	dir = dir > 0 ? 1 : -1;
 	error = 0;
-	while (++(param->prev_p->X) < p->X)
+	while ((param->prev_p->X) <= p->X)
 	{
 		if (flag == 1)
 			mlx_pixel_put(param->mlx_ptr, param->win_ptr, param->prev_p->Y, param->prev_p->X, 255);
@@ -66,20 +66,23 @@ void	draw_line(t_point *p, t_view *param)
 			param->prev_p->Y += dir;
 			error -= dx;
 		}
+		(param->prev_p->X)++;
 	}
 }
 
 int mouse_hook(int button, int X, int Y, t_view *param)
 {
-	t_point	p;
+	t_point2D	p;
 	
 	p.X = X;
 	p.Y = Y;
-	if (param->prev_p->X != 0 && param->prev_p->Y != 0)
+	if (button == 1 && param->prev_p->X != 0 && param->prev_p->Y != 0)
 		draw_line(&p, param);
+	else if (button == 2)
+		mlx_string_put(param->mlx_ptr, param->win_ptr, X, Y, 255<<8, "HELLO");
 	param->prev_p->X = X;
 	param->prev_p->Y = Y;
-	mlx_pixel_put(param->mlx_ptr, param->win_ptr, X, Y, 255);
+	//mlx_pixel_put(param->mlx_ptr, param->win_ptr, X, Y, 255);
 }
 
 int	main(int ac, char **av)
@@ -87,7 +90,7 @@ int	main(int ac, char **av)
 	t_view *v;
 
 	v = ft_memalloc(sizeof(t_view));
-	v->prev_p = ft_memalloc(sizeof(t_point));
+	v->prev_p = ft_memalloc(sizeof(t_point2D));
 	v->mlx_ptr = mlx_init();
 	v->win_ptr = mlx_new_window(v->mlx_ptr, WIDTH, HEIGHT, "FdF");
 	mlx_mouse_hook(v->win_ptr, &mouse_hook, v);
