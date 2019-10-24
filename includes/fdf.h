@@ -6,7 +6,7 @@
 /*   By: dkathlee <dkathlee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 02:39:56 by marvin            #+#    #+#             */
-/*   Updated: 2019/10/23 12:07:56 by dkathlee         ###   ########.fr       */
+/*   Updated: 2019/10/24 16:33:12 by dkathlee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,31 +15,37 @@
 # include <stdlib.h>
 # include <stdio.h>
 # include <fcntl.h>
+# include <mlx.h>
 # include <math.h>
 # include "libft.h"
-# include "mlx.h"
 # define HEIGHT	1080
 # define WIDTH	1920
+# define RAD(Value) ((Value) * 0.0174533)
+
+enum AXIS { X, Y, Z	};
 
 typedef struct	s_point3D
 {
-	int	X;
-	int Y;
-	int Z;
-	int	color;
+	float	X;
+	float	Y;
+	float	Z;
+	int		color;
 }				t_point3D;
 
 typedef struct	s_point2D
 {
-	int	X;
-	int Y;
-	int	color;
+	float	X;
+	float	Y;
+	int		color;
 }				t_point2D;
 
 typedef struct	s_map
 {
+	float		minZ;
+	float		maxZ;
+	int			Width;
+	int			Height;		
 	t_point3D	**points3D;
-	t_point2D	**points;
 }				t_map;
 
 
@@ -47,6 +53,10 @@ typedef struct	s_view
 {
 	void	*mlx_ptr;
 	void	*win_ptr;
-	t_point2D	*prev_p;
+	void	*img;
+	t_point2D *prevP;
+	t_map	*map;
 }				t_view;
+
+int		read_map(char *fname, t_map *map);
 #endif
