@@ -6,7 +6,7 @@
 #    By: dkathlee <dkathlee@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/18 12:08:40 by dkathlee          #+#    #+#              #
-#    Updated: 2019/10/24 15:16:27 by dkathlee         ###   ########.fr        #
+#    Updated: 2019/10/25 13:05:58 by dkathlee         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,7 @@ SRCDIR = srcs/
 INCDIR = includes/
 OBJDIR = obj/
 
-SRCS =	main.c reader.c \
+SRCS =	main.c reader.c hooks.c drawing.c transform.c \
 
 OBJS = $(addprefix $(OBJDIR), $(SRCS:.c=.o))
 

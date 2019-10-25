@@ -6,11 +6,18 @@
 /*   By: dkathlee <dkathlee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/21 22:54:22 by dkathlee          #+#    #+#             */
-/*   Updated: 2019/10/24 15:47:30 by dkathlee         ###   ########.fr       */
+/*   Updated: 2019/10/25 17:40:02 by dkathlee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
+
+static void	free_splited_str(char **mem, int c)
+{
+	while (--c >= 0)
+		free(mem[c]);
+	free(mem);
+}
 
 int	read_map(char *fname, t_map *map)
 {
@@ -33,13 +40,17 @@ int	read_map(char *fname, t_map *map)
 		wc = map->Width;
 		while (--wc >= 0)
 		{
-			(map->points3D)[i][wc].Z = ft_atoi(splited_line[wc]) * 5;
-			(map->points3D)[i][wc].X = i * 20 + 500;
-			(map->points3D)[i][wc].Y = wc * 20;
+			(map->points3D)[i][wc].Z = ft_atoi(splited_line[wc]);
+			(map->points3D)[i][wc].X = i;
+			(map->points3D)[i][wc].Y = wc;
 		}
+		free_splited_str(splited_line, map->Width);
 		ft_memdel((void**)&line);
 		i++;
 	}
+	close(fd);
 	map->Height = i;
+	//p3D_transform(map, map->Height / -2, tr_translate_Y, &p3D_translate);
+	//p3D_transform(map, map->Width / -2, tr_translate_X, &p3D_translate);
 	return (1);
 }
