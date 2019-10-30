@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   transform.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dkathlee <dkathlee@student.42.fr>          +#+  +:+       +#+        */
+/*   By: celva <celva@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/25 12:58:57 by dkathlee          #+#    #+#             */
-/*   Updated: 2019/10/25 17:02:13 by dkathlee         ###   ########.fr       */
+/*   Updated: 2019/10/30 13:28:09 by celva            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,15 +24,11 @@ void	p3D_transform(t_map *map, float value, t_transform_type type,
 		j = 0;
 		while (j < map->Width)
 		{
-			printf("(%d, %d, %d)\t", (int)((map->points3D)[i][j].X), (int)((map->points3D)[i][j].Y), (int)((map->points3D)[i][j].Z));
 			tr((map->points3D)[i] + j, value, type);
 			j++;
 		}
-		printf("\n");
 		i++;
 	}
-
-		printf("\n");
 }
 
 void	p3D_rotate(t_point3D *p, float angle, t_transform_type t)

@@ -3,70 +3,75 @@
 /*                                                        :::      ::::::::   */
 /*   drawing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dkathlee <dkathlee@student.42.fr>          +#+  +:+       +#+        */
+/*   By: celva <celva@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/25 13:04:27 by dkathlee          #+#    #+#             */
-/*   Updated: 2019/10/25 17:26:54 by dkathlee         ###   ########.fr       */
+/*   Updated: 2019/10/31 02:43:51 by celva            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-static int	prepare_points(t_point2D *p1, t_point2D *p2)
+void	put_pixel_img(t_point2D *p, t_view *view)
 {
-	int tmp;
-	int ret;
+	int i;
 	
-	ret = 0;
-	if (ABS(((p2->Y) - (p1->Y))) > ABS(((p2->X) - (p1->X))))
+	if (p->X >= 0 && p->X < WIDTH && p->Y >= 0 && p->Y < HEIGHT)
 	{
-		tmp = p1->X;
-		p1->X = p1->Y;
-		p1->Y = tmp;
-		tmp = p2->X;
-		p2->X = p2->Y;
-		p2->Y = tmp;
-		ret = 1;
+		i = (p->X) + (p->Y * view->line_size/8);
+		(view->data_addr)[i].r = p->color.r;
+		(view->data_addr)[i].g = p->color.g;
+		(view->data_addr)[i].b = p->color.b;
+		(view->data_addr)[i].a = p->color.a;
 	}
-	if (p1->X > p2->X)
-	{
-		tmp = p1->X;
-		p1->X = p2->X;
-		p2->X = tmp;
-		tmp = p1->Y;
-		p1->Y = p2->Y;
-		p2->Y = tmp;
-	}
-	return (ret);
 }
 
-void		draw_line(t_point2D *p1, t_point2D *p2, t_view *param)
+void drawLine(t_point2D *p1, t_point2D *p2, t_view *view)
 {
-	int	error;
-	int	derr;
-	int	dir;
-	int	dx;
-	int flag;
-	
-	flag = prepare_points(p1, p2);
+    int dx;
+    int dy;
+    int signX;
+    int signY;
+    int error[2];
+
 	dx = (ABS((p1->X - p2->X)));
-	dir = p2->Y - p1->Y;
-	derr = (ABS(dir));
-	dir = dir > 0 ? 1 : -1;
-	error = 0;
-	while ((p1->X) <= p2->X)
+	dy = (ABS((p2->Y - p1->Y)));
+	signX = p1->X < p2->X ? 1 : -1;
+	signY = p1->Y < p2->Y ? 1 : -1;
+	error[0] = dx - dy;
+	while (p1->X != p2->X || p1->Y != p2->Y) 
 	{
-		if (flag == 1)
-			mlx_pixel_put(param->mlx_ptr, param->win_ptr, p1->Y, p1->X, 255);
-		else
-			mlx_pixel_put(param->mlx_ptr, param->win_ptr, p1->X, p1->Y, 255);	
-		error += derr;
-		if (2 * error >= derr)
+		p1->color.r = 100;
+		p1->color.g = 0;
+		p1->color.b = 0;
+		p1->color.a = 0;
+		put_pixel_img(p1, view);
+		//mlx_pixel_put(view->mlx, view->win, p1->X, p1->Y, 255)
+		if ((error[1] = error[0] * 2) > -dy) 
 		{
-			p1->Y += dir;
-			error -= dx;
+			error[0] -= dy;
+			p1->X += signX;
 		}
-		(p1->X)++;
+		if (error[1] < dx) 
+		{
+			error[0] += dx;
+			p1->Y += signY;
+		}
+	}
+}
+
+static void	draw_background(t_view *view)
+{
+	int	*image;
+	int	i;
+
+	ft_bzero(view->data_addr, WIDTH * HEIGHT * (view->bpp / 8));
+	image = (int *)(view->data_addr);
+	i = 0;
+	while (i < HEIGHT * WIDTH)
+	{
+		image[i] = 255;
+		i++;
 	}
 }
 
@@ -77,6 +82,7 @@ void		draw_map(t_view *v)
 	t_point2D	*p1;
 	t_point2D	*p2;
 
+	draw_background(v);
 	i = 0;
 	while (i < v->map->Height)
 	{
@@ -84,27 +90,14 @@ void		draw_map(t_view *v)
 		while (j < v->map->Width)
 		{
 			if (j < v->map->Width - 1)
-			{
-				p1 = iso((v->map->points3D)[i] + j);
-				p2 = iso((v->map->points3D)[i] + j + 1);/*
-				p1->X += WIDTH / 2;
-				p1->Y += HEIGHT / 2;
-				p2->X += WIDTH / 2;
-				p2->Y += HEIGHT / 2;*/
-				draw_line(p1, p2, v);
-			}
+				drawLine(iso((v->map->points3D)[i] + j),
+							iso((v->map->points3D)[i] + j + 1), v);
 			if (i < v->map->Height - 1)
-			{
-				p1 = iso((v->map->points3D)[i] + j);
-				p2 = iso((v->map->points3D)[i + 1] + j);/*
-				p1->X += WIDTH / 2;
-				p1->Y += HEIGHT / 2;
-				p2->X += WIDTH / 2;
-				p2->Y += HEIGHT / 2;*/
-				draw_line(p1, p2, v);
-			}
+				drawLine(iso((v->map->points3D)[i] + j),
+							iso((v->map->points3D)[i + 1] + j), v);
 			j++;
 		}
 		i++;
 	}
+	mlx_put_image_to_window(v->mlx, v->win, v->img, 0, 0);
 }

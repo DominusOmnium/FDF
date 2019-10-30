@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dkathlee <dkathlee@student.42.fr>          +#+  +:+       +#+        */
+/*   By: celva <celva@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 02:39:56 by marvin            #+#    #+#             */
-/*   Updated: 2019/10/25 14:07:21 by dkathlee         ###   ########.fr       */
+/*   Updated: 2019/10/31 02:46:38 by celva            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,12 +15,12 @@
 # include <stdlib.h>
 # include <stdio.h>
 # include <fcntl.h>
-# include <mlx.h>
 # include <math.h>
+# include "mlx.h"
 # include "libft.h"
 # include "buttons.h"
-# define HEIGHT	1080
-# define WIDTH	1920
+# define HEIGHT	400
+# define WIDTH	800
 # define RAD(Value) ((Value) * 0.0174533)
 
 typedef enum	e_transform_type
@@ -29,29 +29,32 @@ typedef enum	e_transform_type
 	tr_translate_X, tr_translate_Y, tr_translate_Z,
 	tr_scale_X, tr_scale_Y, tr_scale_Z, tr_scale_ALL 
 }				t_transform_type;
-
+typedef struct	s_color
+{
+	t_uint8	b;
+	t_uint8	g;
+	t_uint8	r;
+	t_uint8	a;
+}				t_color;
 typedef struct	s_point3D
 {
 	float	X;
 	float	Y;
 	float	Z;
-	int		color;
+	t_color	color;
 }				t_point3D;
-
 typedef struct	s_point2D
 {
-	float	X;
-	float	Y;
-	int		color;
+	int		X;
+	int		Y;
+	t_color	color;
 }				t_point2D;
-
 typedef struct	s_transform
 {
 	t_point3D	rotation;
 	t_point3D	translation;
 	t_point3D	scale;
 }				t_transform;
-
 typedef struct	s_map
 {
 	float		minZ;
@@ -60,13 +63,17 @@ typedef struct	s_map
 	int			Height;		
 	t_point3D	**points3D;
 }				t_map;
-
-
 typedef struct	s_view
 {
-	void				*mlx_ptr;
-	void				*win_ptr;
+	void				*mlx;
+	void				*win;
 	void				*img;
+	t_color				*data_addr;
+	float				*zbuff;
+	int					bpp;
+	int					line_size;
+	int					endian;
+	t_transform			*transform;
 	t_transform_type	tr_type;
 	t_point2D			*prevP;
 	t_map				*map;

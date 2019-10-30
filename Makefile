@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: dkathlee <dkathlee@student.42.fr>          +#+  +:+       +#+         #
+#    By: celva <celva@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/18 12:08:40 by dkathlee          #+#    #+#              #
-#    Updated: 2019/10/25 13:05:58 by dkathlee         ###   ########.fr        #
+#    Updated: 2019/10/30 13:17:14 by celva            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,6 +49,9 @@ $(MLXLIB):
 
 $(NAME): $(OBJS)
 	$(CC) $(OBJS) $(MLXLNK) $(FTLNK) -lm -o $(NAME)
+
+linux:
+	gcc -o q $(addprefix $(SRCDIR), $(SRCS)) $(FTLIB) -I $(INCDIR) $(MLXINC) $(FTINC) mlx_linux/libmlx_Linux.a -lm -lXext -lX11
 
 clean:
 	rm -rf $(OBJDIR)

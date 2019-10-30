@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   reader.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dkathlee <dkathlee@student.42.fr>          +#+  +:+       +#+        */
+/*   By: celva <celva@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/21 22:54:22 by dkathlee          #+#    #+#             */
-/*   Updated: 2019/10/25 17:40:02 by dkathlee         ###   ########.fr       */
+/*   Updated: 2019/10/30 16:36:56 by celva            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	read_map(char *fname, t_map *map)
 	}
 	close(fd);
 	map->Height = i;
-	//p3D_transform(map, map->Height / -2, tr_translate_Y, &p3D_translate);
-	//p3D_transform(map, map->Width / -2, tr_translate_X, &p3D_translate);
+	p3D_transform(map, i / -2, tr_translate_Y, &p3D_translate);
+	p3D_transform(map, map->Width / -2, tr_translate_X, &p3D_translate);
 	return (1);
 }

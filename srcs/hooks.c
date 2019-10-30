@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hooks.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dkathlee <dkathlee@student.42.fr>          +#+  +:+       +#+        */
+/*   By: celva <celva@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/25 13:03:24 by dkathlee          #+#    #+#             */
-/*   Updated: 2019/10/25 16:13:40 by dkathlee         ###   ########.fr       */
+/*   Updated: 2019/10/31 02:15:23 by celva            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int mouse_hook(int button, int X, int Y, t_view *v)
 		else if (button == BTN_MOUSE_WHEEL_DOWN)
 			p3D_transform(v->map, -10, v->tr_type, &p3D_translate);
 	}
-	mlx_clear_window(v->mlx_ptr, v->win_ptr);
+	//mlx_clear_window(v->mlx, v->win);
 	draw_map(v);
 	return (1);
 }
