@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dkathlee <dkathlee@student.42.fr>          +#+  +:+       +#+        */
+/*   By: celva <celva@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 02:39:25 by marvin            #+#    #+#             */
-/*   Updated: 2019/10/31 14:36:15 by dkathlee         ###   ########.fr       */
+/*   Updated: 2019/11/01 02:19:33 by celva            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@ int			main(int ac, char **av)
 	if (read_map(av[1], v->map) != 1)
 		ft_putendl("Error reading");
 	draw_map(v);
-	mlx_mouse_hook(v->win, &mouse_hook, v);
-	mlx_key_hook(v->win, &key_hook, v);
+	mlx_mouse_hook(v->win, &mouse_press, v);
+	mlx_key_hook(v->win, &key_press, v);
 	mlx_loop(v->mlx);
 	return (0);
 }

@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: dkathlee <dkathlee@student.42.fr>          +#+  +:+       +#+         #
+#    By: celva <celva@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/18 12:08:40 by dkathlee          #+#    #+#              #
-#    Updated: 2019/10/31 15:27:19 by dkathlee         ###   ########.fr        #
+#    Updated: 2019/10/31 20:24:16 by celva            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ FTLIB = $(addprefix $(FTDIR), libft.a)
 FTINC = -I $(FTDIR)/includes
 FTLNK = -L $(FTDIR) -l ft
 
-all: obj $(FTLIB) $(MLXLIB) $(NAME)
+all: obj $(FTLIB) $(NAME)
 
 obj:
 	mkdir -p $(OBJDIR)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dkathlee <dkathlee@student.42.fr>          +#+  +:+       +#+        */
+/*   By: celva <celva@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 02:39:56 by marvin            #+#    #+#             */
-/*   Updated: 2019/10/31 16:07:30 by dkathlee         ###   ########.fr       */
+/*   Updated: 2019/11/01 02:25:18 by celva            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,16 @@
 # define WIDTH	800
 # define RAD(Value) ((Value) * 0.0174533)
 
-typedef enum	e_transform_type
+typedef enum
 {
 	tr_rot_X, tr_rot_Y, tr_rot_Z,
 	tr_translate_X, tr_translate_Y, tr_translate_Z,
 	tr_scale_X, tr_scale_Y, tr_scale_Z, tr_scale_ALL
 }				t_transform_type;
+typedef enum
+{
+	m_tr_rotate, m_tr_translate
+}				t_mouse_tr;
 typedef struct	s_color
 {
 	t_uint8	b;
@@ -63,6 +67,13 @@ typedef struct	s_map
 	int			height;
 	t_point3d	**points3d;
 }				t_map;
+typedef struct s_mouse
+{
+	t_bool		is_pressed;
+	t_point2d	prev_p;
+	t_mouse_tr	tr_type;
+}				t_mouse;
+
 typedef struct	s_view
 {
 	void				*mlx;
@@ -75,13 +86,11 @@ typedef struct	s_view
 	int					endian;
 	t_transform			*transform;
 	t_transform_type	tr_type;
-	t_point2d			*prev_p;
+	t_mouse				mouse;
 	t_map				*map;
 }				t_view;
 
 int				read_map(char *fname, t_map *map);
-void			p3d_transform(t_map *map, float value, t_transform_type type,
-						void (tr)(t_point3d*, float, t_transform_type));
 void			p3d_rotate(t_point3d *p, float angle, t_transform_type t);
 void			p3d_scale(t_point3d *p, float value, t_transform_type t);
 void			p3d_translate(t_point3d *p, float value, t_transform_type t);
