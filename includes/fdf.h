@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: celva <celva@student.42.fr>                +#+  +:+       +#+        */
+/*   By: dkathlee <dkathlee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 02:39:56 by marvin            #+#    #+#             */
-/*   Updated: 2019/10/31 02:46:38 by celva            ###   ########.fr       */
+/*   Updated: 2019/10/31 16:07:30 by dkathlee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # include "mlx.h"
 # include "libft.h"
 # include "buttons.h"
-# define HEIGHT	400
+# define HEIGHT	800
 # define WIDTH	800
 # define RAD(Value) ((Value) * 0.0174533)
 
@@ -27,7 +27,7 @@ typedef enum	e_transform_type
 {
 	tr_rot_X, tr_rot_Y, tr_rot_Z,
 	tr_translate_X, tr_translate_Y, tr_translate_Z,
-	tr_scale_X, tr_scale_Y, tr_scale_Z, tr_scale_ALL 
+	tr_scale_X, tr_scale_Y, tr_scale_Z, tr_scale_ALL
 }				t_transform_type;
 typedef struct	s_color
 {
@@ -36,32 +36,32 @@ typedef struct	s_color
 	t_uint8	r;
 	t_uint8	a;
 }				t_color;
-typedef struct	s_point3D
+typedef struct	s_point3d
 {
-	float	X;
-	float	Y;
-	float	Z;
+	float	x;
+	float	y;
+	float	z;
 	t_color	color;
-}				t_point3D;
-typedef struct	s_point2D
+}				t_point3d;
+typedef struct	s_point2d
 {
-	int		X;
-	int		Y;
+	int		x;
+	int		y;
 	t_color	color;
-}				t_point2D;
+}				t_point2d;
 typedef struct	s_transform
 {
-	t_point3D	rotation;
-	t_point3D	translation;
-	t_point3D	scale;
+	t_point3d	rotation;
+	t_point3d	translation;
+	t_point3d	scale;
 }				t_transform;
 typedef struct	s_map
 {
-	float		minZ;
-	float		maxZ;
-	int			Width;
-	int			Height;		
-	t_point3D	**points3D;
+	float		min_z;
+	float		max_z;
+	int			width;
+	int			height;
+	t_point3d	**points3d;
 }				t_map;
 typedef struct	s_view
 {
@@ -75,19 +75,20 @@ typedef struct	s_view
 	int					endian;
 	t_transform			*transform;
 	t_transform_type	tr_type;
-	t_point2D			*prevP;
+	t_point2d			*prev_p;
 	t_map				*map;
 }				t_view;
 
-int			read_map(char *fname, t_map *map);
-void		p3D_transform(t_map *map, float value, t_transform_type type,
-						void (tr)(t_point3D*, float, t_transform_type));
-void		p3D_rotate(t_point3D *p, float angle, t_transform_type t);
-void		p3D_scale(t_point3D *p, float value, t_transform_type t);
-void		p3D_translate(t_point3D *p, float value, t_transform_type t);
-int			mouse_hook(int button, int X, int Y, t_view *param);
-int			key_hook(int keycode, t_view *v);
-void		draw_map(t_view *v);
-void		draw_line(t_point2D *p1, t_point2D *p2, t_view *param);
-t_point2D	*iso(t_point3D *p);
+int				read_map(char *fname, t_map *map);
+void			p3d_transform(t_map *map, float value, t_transform_type type,
+						void (tr)(t_point3d*, float, t_transform_type));
+void			p3d_rotate(t_point3d *p, float angle, t_transform_type t);
+void			p3d_scale(t_point3d *p, float value, t_transform_type t);
+void			p3d_translate(t_point3d *p, float value, t_transform_type t);
+int				mouse_hook(int button, int x, int y, t_view *param);
+int				key_hook(int keycode, t_view *v);
+void			draw_map(t_view *v);
+t_point2d		*iso(t_point3d *p);
+t_point2d		*project(t_point3d p, t_view *v);
+t_view			*new_view(void);
 #endif

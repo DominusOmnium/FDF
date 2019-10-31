@@ -3,42 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   hooks.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: celva <celva@student.42.fr>                +#+  +:+       +#+        */
+/*   By: dkathlee <dkathlee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/25 13:03:24 by dkathlee          #+#    #+#             */
-/*   Updated: 2019/10/31 02:15:23 by celva            ###   ########.fr       */
+/*   Updated: 2019/10/31 14:18:38 by dkathlee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-int mouse_hook(int button, int X, int Y, t_view *v)
+int	mouse_hook(int b, int x, int y, t_view *v)
 {
-	if (v->tr_type == tr_scale_ALL || v->tr_type == tr_scale_X ||
-		v->tr_type == tr_scale_Y || v->tr_type == tr_scale_Z)
-	{
-		if (button == BTN_MOUSE_WHEEL_UP)
-			p3D_transform(v->map, 1.1, v->tr_type, &p3D_scale);
-		else if (button == BTN_MOUSE_WHEEL_DOWN)
-			p3D_transform(v->map, 0.9, v->tr_type, &p3D_scale);
-	}
-	if (v->tr_type == tr_rot_X || v->tr_type == tr_rot_Y ||
-									v->tr_type == tr_rot_Z)
-	{
-		if (button == BTN_MOUSE_WHEEL_UP)
-			p3D_transform(v->map, 5, v->tr_type, &p3D_rotate);
-		else if (button == BTN_MOUSE_WHEEL_DOWN)
-			p3D_transform(v->map, -5, v->tr_type, &p3D_rotate);
-	}
-	if (v->tr_type == tr_translate_X || v->tr_type == tr_translate_Y ||
-									v->tr_type == tr_translate_Z)
-	{
-		if (button == BTN_MOUSE_WHEEL_UP)
-			p3D_transform(v->map, 10, v->tr_type, &p3D_translate);
-		else if (button == BTN_MOUSE_WHEEL_DOWN)
-			p3D_transform(v->map, -10, v->tr_type, &p3D_translate);
-	}
-	//mlx_clear_window(v->mlx, v->win);
+	if (v->tr_type == tr_scale_ALL || v->tr_type == tr_scale_X)
+		v->transform->scale.x *= b == BTN_MOUSE_WHEEL_UP ? 0.9 : 1.1;
+	if (v->tr_type == tr_scale_ALL || v->tr_type == tr_scale_Y)
+		v->transform->scale.y *= b == BTN_MOUSE_WHEEL_UP ? 0.9 : 1.1;
+	if (v->tr_type == tr_scale_ALL || v->tr_type == tr_scale_Z)
+		v->transform->scale.z *= b == BTN_MOUSE_WHEEL_UP ? 0.9 : 1.1;
+	if (v->tr_type == tr_rot_X)
+		v->transform->rotation.x += b == BTN_MOUSE_WHEEL_UP ? 5 : -5;
+	if (v->tr_type == tr_rot_Y)
+		v->transform->rotation.y += b == BTN_MOUSE_WHEEL_UP ? 5 : -5;
+	if (v->tr_type == tr_rot_Z)
+		v->transform->rotation.z += b == BTN_MOUSE_WHEEL_UP ? 5 : -5;
+	if (v->tr_type == tr_translate_X)
+		v->transform->translation.x += b == BTN_MOUSE_WHEEL_UP ? 10 : -10;
+	if (v->tr_type == tr_translate_Y)
+		v->transform->translation.y += b == BTN_MOUSE_WHEEL_UP ? 10 : -10;
+	if (v->tr_type == tr_translate_Z)
+		v->transform->translation.z += b == BTN_MOUSE_WHEEL_UP ? 10 : -10;
 	draw_map(v);
 	return (1);
 }

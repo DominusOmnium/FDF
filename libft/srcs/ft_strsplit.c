@@ -6,7 +6,7 @@
 /*   By: dkathlee <dkathlee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/05 17:58:57 by dkathlee          #+#    #+#             */
-/*   Updated: 2019/10/24 14:07:37 by dkathlee         ###   ########.fr       */
+/*   Updated: 2019/10/31 16:44:58 by dkathlee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ char		**ft_strsplit(char const *s, char c)
 	char	**res;
 
 	if (s == NULL ||
-		(res = (char**)malloc(sizeof(char**) * ft_word_count(s, c) + 1)) == NULL)
+	(res = (char**)malloc(sizeof(char**) * ft_word_count(s, c) + 1)) == NULL)
 		return (NULL);
 	if (str_split(res, s, c) == 1)
 		return (NULL);
