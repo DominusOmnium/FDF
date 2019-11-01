@@ -6,7 +6,7 @@
 /*   By: dkathlee <dkathlee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/25 13:04:27 by dkathlee          #+#    #+#             */
-/*   Updated: 2019/10/31 17:40:50 by dkathlee         ###   ########.fr       */
+/*   Updated: 2019/11/01 18:25:56 by dkathlee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 static void	put_pixel_img(t_point2d *p, t_view *view)
 {
-	int i;
+	int			i;
 
 	if (p->x >= 0 && p->x < WIDTH && p->y >= 0 && p->y < HEIGHT)
 	{
@@ -23,35 +23,35 @@ static void	put_pixel_img(t_point2d *p, t_view *view)
 		(view->data_addr)[i].g = p->color.g;
 		(view->data_addr)[i].b = p->color.b;
 		(view->data_addr)[i].a = p->color.a;
-		(view->data_addr)[i].b = 255;
 	}
 }
 
 static void	draw_line(t_point2d *p1, t_point2d *p2, t_view *view)
 {
-	int dx;
-	int dy;
-	int sign_x;
-	int sign_y;
-	int error[2];
+	t_point2d	delta;
+	t_point2d	sign;
+	t_point2d	cur;
+	int			error[2];
 
-	dx = (ABS((p1->x - p2->x)));
-	dy = (ABS((p2->y - p1->y)));
-	sign_x = p1->x < p2->x ? 1 : -1;
-	sign_y = p1->y < p2->y ? 1 : -1;
-	error[0] = dx - dy;
-	while (p1->x != p2->x || p1->y != p2->y)
+	delta.x = (ABS((p1->x - p2->x)));
+	delta.y = (ABS((p2->y - p1->y)));
+	sign.x = p1->x < p2->x ? 1 : -1;
+	sign.y = p1->y < p2->y ? 1 : -1;
+	error[0] = delta.x - delta.y;
+	cur = *p1;
+	while (cur.x != p2->x || cur.y != p2->y)
 	{
-		put_pixel_img(p1, view);
-		if ((error[1] = error[0] * 2) > -dy)
+		calc_pixel_color(p1, p2, &cur);
+		put_pixel_img(&cur, view);
+		if ((error[1] = error[0] * 2) > -delta.y)
 		{
-			error[0] -= dy;
-			p1->x += sign_x;
+			error[0] -= delta.y;
+			cur.x += sign.x;
 		}
-		if (error[1] < dx)
+		if (error[1] < delta.x)
 		{
-			error[0] += dx;
-			p1->y += sign_y;
+			error[0] += delta.x;
+			cur.y += sign.y;
 		}
 	}
 }
@@ -82,20 +82,19 @@ void		draw_map(t_view *v)
 {
 	int			i;
 	int			j;
-	t_point2d	*p1;
-	t_point2d	*p2;
 
+	mlx_clear_window(v->mlx, v->win);
 	draw_background(v);
 	i = 0;
-	while (i < v->map->height)
+	while (i < v->map->h)
 	{
 		j = 0;
-		while (j < v->map->width)
+		while (j < v->map->w)
 		{
-			if (j < v->map->width - 1)
+			if (j < v->map->w - 1)
 				draw_line_f(project((v->map->points3d)[i][j], v),
 							project((v->map->points3d)[i][j + 1], v), v);
-			if (i < v->map->height - 1)
+			if (i < v->map->h - 1)
 				draw_line_f(project((v->map->points3d)[i][j], v),
 							project((v->map->points3d)[i + 1][j], v), v);
 			j++;

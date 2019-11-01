@@ -6,7 +6,7 @@
 /*   By: dkathlee <dkathlee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/31 14:36:01 by dkathlee          #+#    #+#             */
-/*   Updated: 2019/10/31 17:36:54 by dkathlee         ###   ########.fr       */
+/*   Updated: 2019/11/01 18:19:18 by dkathlee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,5 +46,25 @@ t_view		*new_view(void)
 	view->transform->scale.y = 1;
 	view->transform->scale.z = 1;
 	view->tr_type = tr_scale_ALL;
+	view->projection = ISO;
+	view->map->min_z = INT_MAX;
+	view->map->max_z = INT_MIN;
+	view->map->min_color = rand_color();
+	view->map->max_color = rand_color();
 	return (view);
+}
+
+static int	wind_close(void *param)
+{
+	(void)param;
+	exit(0);
+}
+
+void		setup_hooks(t_view *v)
+{
+	mlx_mouse_hook(v->win, &mouse_press, v);
+	mlx_hook(v->win, 5, 0, &mouse_release, v);
+	mlx_hook(v->win, 6, 0, &mouse_move, v);
+	mlx_key_hook(v->win, &key_press, v);
+	mlx_hook(v->win, 17, 0, &wind_close, v);
 }

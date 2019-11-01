@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hooks.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: celva <celva@student.42.fr>                +#+  +:+       +#+        */
+/*   By: dkathlee <dkathlee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/25 13:03:24 by dkathlee          #+#    #+#             */
-/*   Updated: 2019/11/01 02:28:30 by celva            ###   ########.fr       */
+/*   Updated: 2019/11/01 18:23:51 by dkathlee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,20 @@ int				mouse_press(int b, int x, int y, t_view *v)
 			v->transform->scale.z *= b == BTN_MOUSE_WHEEL_UP ? 0.9 : 1.1;
 		draw_map(v);
 	}
-	if (b == BTN_MOUSE_LEFT && x != v->mouse.prev_p.x && y != v->mouse.prev_p.y)
+	if (b == BTN_MOUSE_LEFT)
+	{
 		v->mouse.is_pressed = true;
+		v->mouse.tr_type = m_tr_translate;
+		v->mouse.prev.x = x;
+		v->mouse.prev.y = y;
+	}
+	else if (b == BTN_MOUSE_RIGHT)
+	{
+		v->mouse.is_pressed = true;
+		v->mouse.tr_type = m_tr_rotate;
+		v->mouse.prev.x = x;
+		v->mouse.prev.y = y;
+	}
 	return (1);
 }
 
@@ -33,8 +45,10 @@ int				mouse_release(int b, int x, int y, t_view *v)
 {
 	(void)x;
 	(void)y;
-	if (b == BTN_MOUSE_LEFT)
+	if ((b == BTN_MOUSE_LEFT && v->mouse.tr_type == m_tr_translate) ||
+		(b == BTN_MOUSE_RIGHT && v->mouse.tr_type == m_tr_rotate))
 		v->mouse.is_pressed = false;
+	return (1);
 }
 
 int				key_press(int keycode, t_view *v)
@@ -53,5 +67,38 @@ int				key_press(int keycode, t_view *v)
 		v->tr_type = tr_scale_Z;
 	if (keycode == BTN_F)
 		v->tr_type = tr_scale_ALL;
+	if (keycode == BTN_I)
+		v->projection = ISO;
+	if (keycode == BTN_P)
+		v->projection = Parallel;
+	if (keycode == BTN_C)
+	{
+		v->map->min_color = rand_color();
+		v->map->max_color = rand_color();
+		colorize_points(v->map);
+	}
+	if (keycode == BTN_C || keycode == BTN_I || keycode == BTN_P)
+		draw_map(v);
+	return (1);
+}
+
+int				mouse_move(int x, int y, t_view *v)
+{
+	if (v->mouse.is_pressed && (v->mouse.prev.x != x || v->mouse.prev.y != y))
+	{
+		if (v->mouse.tr_type == m_tr_translate)
+		{
+			v->transform->translation.x += (x - v->mouse.prev.x) / v->transform->scale.x;
+			v->transform->translation.y += (y - v->mouse.prev.y) / v->transform->scale.y;
+		}
+		else if (v->mouse.tr_type == m_tr_rotate)
+		{
+			v->transform->rotation.x += x - v->mouse.prev.x;
+			v->transform->rotation.y += y - v->mouse.prev.y;
+		}
+		v->mouse.prev.x = x;
+		v->mouse.prev.y = y;
+		draw_map(v);
+	}
 	return (1);
 }
