@@ -6,17 +6,15 @@
 /*   By: dkathlee <dkathlee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/31 14:36:01 by dkathlee          #+#    #+#             */
-/*   Updated: 2019/11/01 18:19:18 by dkathlee         ###   ########.fr       */
+/*   Updated: 2019/11/02 16:23:09 by dkathlee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-static void	free_all(t_view *view)
+static void		free_all(t_view *view)
 {
-	printf("Error\n");
 	ft_memdel((void**)&view);
-	ft_memdel((void**)&(view->transform));
 	ft_memdel((void**)&(view->map));
 	ft_memdel((void**)&(view->zbuff));
 	if (view->img != NULL)
@@ -25,13 +23,25 @@ static void	free_all(t_view *view)
 		mlx_destroy_window(view->mlx, view->win);
 }
 
-t_view		*new_view(void)
+static t_map	*new_map(void)
+{
+	t_map *m;
+
+	if ((m = (t_map*)ft_memalloc(sizeof(t_map))) == NULL)
+		return (NULL);
+	m->min_z = INT_MAX;
+	m->max_z = INT_MIN;
+	m->min_color = rand_color();
+	m->max_color = rand_color();
+	return (m);
+}
+
+t_view			*new_view(void)
 {
 	t_view	*view;
 
 	if ((view = ft_memalloc(sizeof(t_view))) == NULL ||
-		(view->transform = ft_memalloc(sizeof(t_transform))) == NULL ||
-		(view->map = (t_map*)ft_memalloc(sizeof(t_map))) == NULL ||
+		(view->map = new_map()) == NULL ||
 		(view->mlx = mlx_init()) == NULL ||
 		(view->zbuff = ft_memalloc(sizeof(float) * WIDTH * HEIGHT)) == NULL ||
 		(view->win = mlx_new_window(view->mlx, WIDTH, HEIGHT, "FdF")) == NULL ||
@@ -42,25 +52,18 @@ t_view		*new_view(void)
 		free_all(view);
 		return (NULL);
 	}
-	view->transform->scale.x = 1;
-	view->transform->scale.y = 1;
-	view->transform->scale.z = 1;
 	view->tr_type = tr_scale_ALL;
 	view->projection = ISO;
-	view->map->min_z = INT_MAX;
-	view->map->max_z = INT_MIN;
-	view->map->min_color = rand_color();
-	view->map->max_color = rand_color();
 	return (view);
 }
 
-static int	wind_close(void *param)
+static int		wind_close(void *param)
 {
 	(void)param;
 	exit(0);
 }
 
-void		setup_hooks(t_view *v)
+void			setup_hooks(t_view *v)
 {
 	mlx_mouse_hook(v->win, &mouse_press, v);
 	mlx_hook(v->win, 5, 0, &mouse_release, v);

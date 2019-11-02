@@ -6,43 +6,43 @@
 /*   By: dkathlee <dkathlee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/25 13:04:27 by dkathlee          #+#    #+#             */
-/*   Updated: 2019/11/01 18:25:56 by dkathlee         ###   ########.fr       */
+/*   Updated: 2019/11/02 16:55:27 by dkathlee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 
-static void	put_pixel_img(t_point2d *p, t_view *view)
+static void	put_pixel_img(t_point2d p, t_view *view)
 {
 	int			i;
 
-	if (p->x >= 0 && p->x < WIDTH && p->y >= 0 && p->y < HEIGHT)
+	if (p.x >= 0 && p.x < WIDTH && p.y >= 0 && p.y < HEIGHT)
 	{
-		i = (p->x) + (p->y * view->line_size / 4);
-		(view->data_addr)[i].r = p->color.r;
-		(view->data_addr)[i].g = p->color.g;
-		(view->data_addr)[i].b = p->color.b;
-		(view->data_addr)[i].a = p->color.a;
+		i = (p.x) + (p.y * view->line_size / 4);
+		(view->data_addr)[i].r = p.color.r;
+		(view->data_addr)[i].g = p.color.g;
+		(view->data_addr)[i].b = p.color.b;
+		//(view->data_addr)[i].a = p->color.a;
 	}
 }
 
-static void	draw_line(t_point2d *p1, t_point2d *p2, t_view *view)
+static void	draw_line(t_point2d p1, t_point2d p2, t_view *view)
 {
 	t_point2d	delta;
 	t_point2d	sign;
 	t_point2d	cur;
 	int			error[2];
 
-	delta.x = (ABS((p1->x - p2->x)));
-	delta.y = (ABS((p2->y - p1->y)));
-	sign.x = p1->x < p2->x ? 1 : -1;
-	sign.y = p1->y < p2->y ? 1 : -1;
+	delta.x = (ABS((p1.x - p2.x)));
+	delta.y = (ABS((p2.y - p1.y)));
+	sign.x = p1.x < p2.x ? 1 : -1;
+	sign.y = p1.y < p2.y ? 1 : -1;
 	error[0] = delta.x - delta.y;
-	cur = *p1;
-	while (cur.x != p2->x || cur.y != p2->y)
+	cur = p1;
+	while (cur.x != p2.x || cur.y != p2.y)
 	{
 		calc_pixel_color(p1, p2, &cur);
-		put_pixel_img(&cur, view);
+		put_pixel_img(cur, view);
 		if ((error[1] = error[0] * 2) > -delta.y)
 		{
 			error[0] -= delta.y;
@@ -54,13 +54,6 @@ static void	draw_line(t_point2d *p1, t_point2d *p2, t_view *view)
 			cur.y += sign.y;
 		}
 	}
-}
-
-static void	draw_line_f(t_point2d *p1, t_point2d *p2, t_view *view)
-{
-	draw_line(p1, p2, view);
-	ft_memdel((void**)&p1);
-	ft_memdel((void**)&p2);
 }
 
 static void	draw_background(t_view *view)
@@ -83,7 +76,6 @@ void		draw_map(t_view *v)
 	int			i;
 	int			j;
 
-	mlx_clear_window(v->mlx, v->win);
 	draw_background(v);
 	i = 0;
 	while (i < v->map->h)
@@ -92,10 +84,10 @@ void		draw_map(t_view *v)
 		while (j < v->map->w)
 		{
 			if (j < v->map->w - 1)
-				draw_line_f(project((v->map->points3d)[i][j], v),
+				draw_line(project((v->map->points3d)[i][j], v),
 							project((v->map->points3d)[i][j + 1], v), v);
 			if (i < v->map->h - 1)
-				draw_line_f(project((v->map->points3d)[i][j], v),
+				draw_line(project((v->map->points3d)[i][j], v),
 							project((v->map->points3d)[i + 1][j], v), v);
 			j++;
 		}

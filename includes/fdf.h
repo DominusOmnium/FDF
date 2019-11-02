@@ -6,7 +6,7 @@
 /*   By: dkathlee <dkathlee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 02:39:56 by marvin            #+#    #+#             */
-/*   Updated: 2019/11/01 16:48:16 by dkathlee         ###   ########.fr       */
+/*   Updated: 2019/11/02 16:55:08 by dkathlee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,12 @@
 # include "mlx.h"
 # include "libft.h"
 # include "buttons.h"
-# define HEIGHT	800
-# define WIDTH	800
-# define RAD(Value) ((Value) * 0.0174533)
+# define HEIGHT		1000
+# define WIDTH		1500
+# define TAN30		0.577350269
+# define COS30		0.866025404
+# define SIN30		0.5
+# define RAD(Value)	((Value) * 0.0174533)
 
 typedef enum
 {
@@ -91,7 +94,7 @@ typedef struct	s_view
 	int					bpp;
 	int					line_size;
 	int					endian;
-	t_transform			*transform;
+	t_transform			transform;
 	t_transform_type	tr_type;
 	t_mouse				mouse;
 	t_map				*map;
@@ -108,10 +111,10 @@ void			setup_hooks(t_view *v);
 int				key_press(int keycode, t_view *v);
 void			draw_map(t_view *v);
 t_point2d		*iso(t_point3d *p);
-t_point2d		*project(t_point3d p, t_view *v);
+t_point2d		project(t_point3d p, t_view *v);
 t_view			*new_view(void);
 t_color			rand_color();
 void			colorize_points(t_map *m);
-t_color			calc_pixel_color(t_point2d *st_p, t_point2d *end_p,
+void			calc_pixel_color(t_point2d st_p, t_point2d end_p,
 													t_point2d *cur_p);
 #endif

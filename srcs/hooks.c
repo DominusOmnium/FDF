@@ -6,7 +6,7 @@
 /*   By: dkathlee <dkathlee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/25 13:03:24 by dkathlee          #+#    #+#             */
-/*   Updated: 2019/11/01 18:23:51 by dkathlee         ###   ########.fr       */
+/*   Updated: 2019/11/02 16:22:23 by dkathlee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,21 +17,21 @@ int				mouse_press(int b, int x, int y, t_view *v)
 	if (b == BTN_MOUSE_WHEEL_DOWN || b == BTN_MOUSE_WHEEL_UP)
 	{
 		if (v->tr_type == tr_scale_ALL || v->tr_type == tr_scale_X)
-			v->transform->scale.x *= b == BTN_MOUSE_WHEEL_UP ? 0.9 : 1.1;
+			v->transform.scale.x *= b == BTN_MOUSE_WHEEL_UP ? 0.9 : 1.1;
 		if (v->tr_type == tr_scale_ALL || v->tr_type == tr_scale_Y)
-			v->transform->scale.y *= b == BTN_MOUSE_WHEEL_UP ? 0.9 : 1.1;
+			v->transform.scale.y *= b == BTN_MOUSE_WHEEL_UP ? 0.9 : 1.1;
 		if (v->tr_type == tr_scale_ALL || v->tr_type == tr_scale_Z)
-			v->transform->scale.z *= b == BTN_MOUSE_WHEEL_UP ? 0.9 : 1.1;
+			v->transform.scale.z *= b == BTN_MOUSE_WHEEL_UP ? 0.9 : 1.1;
 		draw_map(v);
 	}
-	if (b == BTN_MOUSE_LEFT)
+	if (b == BTN_MOUSE_LEFT && x >= 0 && x < WIDTH && y >= 0 && y < HEIGHT)
 	{
 		v->mouse.is_pressed = true;
 		v->mouse.tr_type = m_tr_translate;
 		v->mouse.prev.x = x;
 		v->mouse.prev.y = y;
 	}
-	else if (b == BTN_MOUSE_RIGHT)
+	else if (b == BTN_MOUSE_RIGHT && x >= 0 && x < WIDTH && y >= 0 && y < HEIGHT)
 	{
 		v->mouse.is_pressed = true;
 		v->mouse.tr_type = m_tr_rotate;
@@ -84,17 +84,39 @@ int				key_press(int keycode, t_view *v)
 
 int				mouse_move(int x, int y, t_view *v)
 {
-	if (v->mouse.is_pressed && (v->mouse.prev.x != x || v->mouse.prev.y != y))
+	t_point2d	delta;
+
+	delta.x = x - v->mouse.prev.x;
+	delta.y = y - v->mouse.prev.y;
+	if (v->mouse.is_pressed && (delta.x != 0 || delta.y != 0))
 	{
 		if (v->mouse.tr_type == m_tr_translate)
 		{
-			v->transform->translation.x += (x - v->mouse.prev.x) / v->transform->scale.x;
-			v->transform->translation.y += (y - v->mouse.prev.y) / v->transform->scale.y;
+			if (v->projection == ISO)
+			{
+				v->transform.translation.x += delta.x * tan(RAD(30));
+				v->transform.translation.y -= delta.x * tan(RAD(30));
+				v->transform.translation.z -= delta.y;
+			}
+			else
+			{
+				v->transform.translation.x += delta.x;
+				v->transform.translation.y += delta.y;
+			}
 		}
 		else if (v->mouse.tr_type == m_tr_rotate)
 		{
-			v->transform->rotation.x += x - v->mouse.prev.x;
-			v->transform->rotation.y += y - v->mouse.prev.y;
+			if (v->projection == Parallel)
+			{
+				v->transform.rotation.y += delta.x >> 2;
+				v->transform.rotation.x -= delta.y >> 2;
+			}
+			else
+			{
+				v->transform.rotation.x += (delta.x >> 2) * TAN30 + (delta.y >> 2) * (1 - TAN30);
+				v->transform.rotation.y += (delta.x >> 2) * (1 - TAN30) + (delta.y >> 2) * TAN30;
+			}
+			
 		}
 		v->mouse.prev.x = x;
 		v->mouse.prev.y = y;

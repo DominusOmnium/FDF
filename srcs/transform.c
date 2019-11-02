@@ -6,7 +6,7 @@
 /*   By: dkathlee <dkathlee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/25 12:58:57 by dkathlee          #+#    #+#             */
-/*   Updated: 2019/10/31 16:44:21 by dkathlee         ###   ########.fr       */
+/*   Updated: 2019/11/02 16:18:52 by dkathlee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,43 +33,5 @@ void	p3d_rotate(t_point3d *p, float angle, t_transform_type t)
 		prev = p->x;
 		p->x = (p->x * cos(RAD(angle)) - p->y * sin(RAD(angle)));
 		p->y = (prev * sin(RAD(angle)) + p->y * cos(RAD(angle)));
-	}
-}
-
-void	p3d_scale(t_point3d *p, float value, t_transform_type t)
-{
-	if (t == tr_scale_X)
-	{
-		p->x *= value;
-	}
-	else if (t == tr_scale_Y)
-	{
-		p->y *= value;
-	}
-	else if (t == tr_scale_Z)
-	{
-		p->z *= value;
-	}
-	else if (t == tr_scale_ALL)
-	{
-		p->x *= value;
-		p->y *= value;
-		p->z *= value;
-	}
-}
-
-void	p3d_translate(t_point3d *p, float value, t_transform_type t)
-{
-	if (t == tr_translate_X)
-	{
-		p->x += value;
-	}
-	else if (t == tr_translate_Y)
-	{
-		p->y += value;
-	}
-	else if (t == tr_translate_Z)
-	{
-		p->z += value;
 	}
 }

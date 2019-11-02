@@ -6,7 +6,7 @@
 #    By: dkathlee <dkathlee@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/10/18 12:08:40 by dkathlee          #+#    #+#              #
-#    Updated: 2019/11/01 16:06:07 by dkathlee         ###   ########.fr        #
+#    Updated: 2019/11/02 12:18:19 by dkathlee         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ SRCS =	main.c reader.c hooks.c drawing.c transform.c projection.c init.c color.c
 OBJS = $(addprefix $(OBJDIR), $(SRCS:.c=.o))
 
 CC = gcc
-CFLAGS = 
+CFLAGS = -g
 
 MLXDIR = mlx/
 MLXLIB = $(addprefix $(MLXDIR), mlx.a)
