@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hooks.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: celva <celva@student.42.fr>                +#+  +:+       +#+        */
+/*   By: dkathlee <dkathlee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/25 13:03:24 by dkathlee          #+#    #+#             */
-/*   Updated: 2019/11/04 00:31:47 by celva            ###   ########.fr       */
+/*   Updated: 2019/11/06 12:55:38 by dkathlee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int				mouse_press(int b, int x, int y, t_view *v)
 		v->mouse.prev.x = x;
 		v->mouse.prev.y = y;
 	}
-	else if (b == BTN_MOUSE_RIGHT && x >= 0 && x < WIDTH && y >= 0 && y < HEIGHT)
+	if (b == BTN_MOUSE_RIGHT && x >= 0 && x < WIDTH && y >= 0 && y < HEIGHT)
 	{
 		v->mouse.is_pressed = true;
 		v->mouse.tr_type = m_tr_rotate;
@@ -97,8 +97,8 @@ int				mouse_move(int x, int y, t_view *v)
 		{
 			if (v->projection == ISO)
 			{
-				v->transform.translation.x += delta.x * tan(RAD(30));
-				v->transform.translation.y -= delta.x * tan(RAD(30));
+				v->transform.translation.x += delta.x * TAN30;
+				v->transform.translation.y -= delta.x * TAN30;
 				v->transform.translation.z -= delta.y;
 			}
 			else
@@ -109,17 +109,8 @@ int				mouse_move(int x, int y, t_view *v)
 		}
 		else if (v->mouse.tr_type == m_tr_rotate)
 		{
-			if (v->projection == Parallel)
-			{
-				v->transform.rotation.y += delta.x >> 2;
-				v->transform.rotation.x -= delta.y >> 2;
-			}
-			else
-			{
-				v->transform.rotation.x += (delta.x >> 2) * TAN30 + (delta.y >> 2) * (1 - TAN30);
-				v->transform.rotation.y += (delta.x >> 2) * (1 - TAN30) + (delta.y >> 2) * TAN30;
-			}
-			
+			v->transform.rotation.y += delta.x >> 2;
+			v->transform.rotation.x -= delta.y >> 2;
 		}
 		v->mouse.prev.x = x;
 		v->mouse.prev.y = y;

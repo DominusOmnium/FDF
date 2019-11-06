@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: celva <celva@student.42.fr>                +#+  +:+       +#+        */
+/*   By: dkathlee <dkathlee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 02:39:56 by marvin            #+#    #+#             */
-/*   Updated: 2019/11/04 00:34:02 by celva            ###   ########.fr       */
+/*   Updated: 2019/11/06 15:03:48 by dkathlee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,9 @@
 # define SIN30		0.5
 # define RAD(Value)	((Value) * 0.0174533)
 # define COLOR_BGR	0x000000
+
+#include <time.h>
+clock_t begin;
 
 typedef enum
 {
@@ -118,4 +121,5 @@ t_color			rand_color();
 void			colorize_points(t_map *m);
 void			calc_pixel_color(t_point2d st_p, t_point2d end_p,
 													t_point2d *cur_p);
+int				point_lineside(t_point2d p1, t_point2d p2, t_point2d p);
 #endif

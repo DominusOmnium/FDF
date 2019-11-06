@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   reader.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: celva <celva@student.42.fr>                +#+  +:+       +#+        */
+/*   By: dkathlee <dkathlee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/21 22:54:22 by dkathlee          #+#    #+#             */
-/*   Updated: 2019/11/04 00:46:56 by celva            ###   ########.fr       */
+/*   Updated: 2019/11/06 11:57:02 by dkathlee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int			read_map(char *fname, t_map *map)
 	map->h = 0;
 	while (get_next_line(fd, &line) == 1)
 	{
-		map->points3d = ft_realloc(map->points3d, sizeof(t_point3d*) * map->h, 
+		map->points3d = ft_realloc(map->points3d, sizeof(t_point3d*) * map->h,
 											sizeof(t_point3d*) * (map->h + 1));
 		splited_line = ft_strsplit(line, ' ');
 		map->w = ft_word_count(line, ' ');
