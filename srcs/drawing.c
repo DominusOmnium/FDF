@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   drawing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dkathlee <dkathlee@student.42.fr>          +#+  +:+       +#+        */
+/*   By: celva <celva@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/25 13:04:27 by dkathlee          #+#    #+#             */
-/*   Updated: 2019/11/02 16:55:27 by dkathlee         ###   ########.fr       */
+/*   Updated: 2019/11/04 00:49:44 by celva            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ static void	put_pixel_img(t_point2d p, t_view *view)
 		(view->data_addr)[i].r = p.color.r;
 		(view->data_addr)[i].g = p.color.g;
 		(view->data_addr)[i].b = p.color.b;
-		//(view->data_addr)[i].a = p->color.a;
 	}
 }
 
@@ -61,12 +60,11 @@ static void	draw_background(t_view *view)
 	int	*image;
 	int	i;
 
-	ft_bzero(view->data_addr, WIDTH * HEIGHT * (view->bpp / 8));
 	image = (int *)(view->data_addr);
 	i = 0;
 	while (i < HEIGHT * WIDTH)
 	{
-		image[i] = 0;
+		image[i] = COLOR_BGR;
 		i++;
 	}
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   fdf.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dkathlee <dkathlee@student.42.fr>          +#+  +:+       +#+        */
+/*   By: celva <celva@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 02:39:56 by marvin            #+#    #+#             */
-/*   Updated: 2019/11/02 16:55:08 by dkathlee         ###   ########.fr       */
+/*   Updated: 2019/11/04 00:34:02 by celva            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@
 # define COS30		0.866025404
 # define SIN30		0.5
 # define RAD(Value)	((Value) * 0.0174533)
+# define COLOR_BGR	0x000000
 
 typedef enum
 {

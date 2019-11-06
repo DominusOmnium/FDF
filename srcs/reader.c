@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   reader.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dkathlee <dkathlee@student.42.fr>          +#+  +:+       +#+        */
+/*   By: celva <celva@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/21 22:54:22 by dkathlee          #+#    #+#             */
-/*   Updated: 2019/11/02 12:52:56 by dkathlee         ###   ########.fr       */
+/*   Updated: 2019/11/04 00:46:56 by celva            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ static void	set_point(t_map *map, int i, char **splited_line)
 			map->max_z = (int)(map->points3d)[i][wc].z;
 		(map->points3d)[i][wc].x = wc;
 		(map->points3d)[i][wc].y = i;
-		(map->points3d)[i][wc].color.b = 255;
 	}
 }
 

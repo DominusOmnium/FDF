@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   hooks.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dkathlee <dkathlee@student.42.fr>          +#+  +:+       +#+        */
+/*   By: celva <celva@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/25 13:03:24 by dkathlee          #+#    #+#             */
-/*   Updated: 2019/11/02 16:22:23 by dkathlee         ###   ########.fr       */
+/*   Updated: 2019/11/04 00:31:47 by celva            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 
 int				mouse_press(int b, int x, int y, t_view *v)
 {
+	v->map->min_color = rand_color();
+	v->map->max_color = rand_color();
+	draw_map(v);
 	if (b == BTN_MOUSE_WHEEL_DOWN || b == BTN_MOUSE_WHEEL_UP)
 	{
 		if (v->tr_type == tr_scale_ALL || v->tr_type == tr_scale_X)
