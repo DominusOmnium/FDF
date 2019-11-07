@@ -6,7 +6,7 @@
 /*   By: dkathlee <dkathlee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/25 13:04:27 by dkathlee          #+#    #+#             */
-/*   Updated: 2019/11/06 15:53:14 by dkathlee         ###   ########.fr       */
+/*   Updated: 2019/11/07 14:21:06 by dkathlee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static void	put_pixel_img(t_point2d s, t_point2d p, t_point2d e, t_view *view)
 {
 	int			i;
 
-	if (p.x >= 0 && p.x < WIDTH && p.y >= 0 && p.y < HEIGHT)
+	if (p.x >= MENU_WIDTH && p.x < WIDTH && p.y >= 0 && p.y < HEIGHT)
 	{
 		calc_pixel_color(s, e, &p);
 		i = (p.x) + (p.y * view->line_size / 4);
@@ -64,38 +64,52 @@ static void	draw_background(t_view *view)
 	i = 0;
 	while (i < HEIGHT * WIDTH)
 	{
-		image[i] = COLOR_BGR;
+		if (i % WIDTH <= MENU_WIDTH)
+			image[i] = COLOR_MENU;
+		else
+			image[i] = COLOR_BGR;
 		i++;
 	}
+}
+
+static void	draw_menu(t_view *v)
+{
+	print_rotation(v);
+	print_translation(v);
+	print_scale(v);
+	mlx_string_put(v->mlx, v->win, 10, 465, COLOR_TEXT_DEF,
+											"Projection (I and P keys)");
+	if (v->projection == ISO)
+		mlx_string_put(v->mlx, v->win, 10, 500, COLOR_TEXT_DEF, "I: Isometric");
+	else
+		mlx_string_put(v->mlx, v->win, 10, 500, COLOR_TEXT_DEF, "Parallel");
+	print_controls(v);
 }
 
 void		draw_map(t_view *v)
 {
 	int			i;
 	int			j;
-	int			h;
-	int			w;
 	t_point3d	**p;
 	t_point2d	p2d;
 
 	draw_background(v);
 	i = 0;
-	h = v->map->h;
-	w = v->map->w;
 	p = v->map->points3d;
-	while (i < h)
+	while (i < v->map->h)
 	{
 		j = 0;
-		while (j < w)
+		while (j < v->map->w)
 		{
 			p2d = project(p[i][j], v);
-			if (j < w - 1)
+			if (j < v->map->w - 1)
 				draw_line(p2d, project(p[i][j + 1], v), v);
-			if (i < h - 1)
+			if (i < v->map->h - 1)
 				draw_line(p2d, project(p[i + 1][j], v), v);
 			j++;
 		}
 		i++;
 	}
 	mlx_put_image_to_window(v->mlx, v->win, v->img, 0, 0);
+	draw_menu(v);
 }

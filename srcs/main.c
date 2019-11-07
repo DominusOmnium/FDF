@@ -3,24 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: celva <celva@student.42.fr>                +#+  +:+       +#+        */
+/*   By: dkathlee <dkathlee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 02:39:25 by marvin            #+#    #+#             */
-/*   Updated: 2019/11/04 00:45:47 by celva            ###   ########.fr       */
+/*   Updated: 2019/11/07 14:15:47 by dkathlee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
-
-static void	set_scale(t_view *v)
-{
-	float	scale;
-	
-	scale = MIN(WIDTH / (v->map->w * 2.5), HEIGHT / (v->map->h * 2.5));
-	v->transform.scale.x = scale;
-	v->transform.scale.y = scale;
-	v->transform.scale.z = scale;
-}
 
 static int	return_mes(char *s)
 {

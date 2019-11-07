@@ -6,7 +6,7 @@
 /*   By: dkathlee <dkathlee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/03 14:02:24 by dkathlee          #+#    #+#             */
-/*   Updated: 2019/11/02 13:10:50 by dkathlee         ###   ########.fr       */
+/*   Updated: 2019/11/07 12:36:06 by dkathlee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,28 +27,28 @@ typedef unsigned int	t_uint32;
 typedef unsigned long	t_uint64;
 typedef enum
 {
-	false	= 0,
-	true	= 1
-}						t_bool;
-typedef struct			s_list
+	false = 0,
+	true = 1
+}	t_bool;
+typedef struct	s_list
 {
 	void			*content;
 	size_t			content_size;
 	struct s_list	*next;
-}						t_list;
-typedef struct			s_btree
+}				t_list;
+typedef struct	s_btree
 {
 	struct s_btree	*left;
 	struct s_btree	*right;
 	void			*item;
-}						t_btree;
-typedef struct			s_dlist
+}				t_btree;
+typedef struct	s_dlist
 {
 	void			*content;
 	size_t			content_size;
 	struct s_dlist	*next;
 	struct s_dlist	*prev;
-}						t_dlist;
+}				t_dlist;
 void			ft_bzero(void *buf, size_t count);
 void			*ft_memset(void *buf, int ch, size_t count);
 void			*ft_memcpy(void *dst, const void *src, size_t n);

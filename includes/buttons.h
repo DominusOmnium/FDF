@@ -6,7 +6,7 @@
 /*   By: dkathlee <dkathlee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/25 13:01:22 by dkathlee          #+#    #+#             */
-/*   Updated: 2019/11/01 16:23:30 by dkathlee         ###   ########.fr       */
+/*   Updated: 2019/11/07 12:11:35 by dkathlee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,6 @@
 # define BTN_I					34
 # define BTN_P					35
 # define BTN_C					8
+# define BTN_R					15
 # define BTN_ESC				53
 #endif

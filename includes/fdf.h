@@ -6,7 +6,7 @@
 /*   By: dkathlee <dkathlee@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 02:39:56 by marvin            #+#    #+#             */
-/*   Updated: 2019/11/06 15:03:48 by dkathlee         ###   ########.fr       */
+/*   Updated: 2019/11/07 14:20:53 by dkathlee         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,17 @@
 # include "mlx.h"
 # include "libft.h"
 # include "buttons.h"
-# define HEIGHT		1000
-# define WIDTH		1500
-# define TAN30		0.577350269
-# define COS30		0.866025404
-# define SIN30		0.5
-# define RAD(Value)	((Value) * 0.0174533)
-# define COLOR_BGR	0x000000
+# define HEIGHT			1000
+# define WIDTH			1500
+# define MENU_WIDTH		350
+# define TAN30			0.577350269
+# define COS30			0.866025404
+# define SIN30			0.5
+# define RAD(Value)		((Value) * 0.0174533)
+# define COLOR_BGR		0x2F2F2F
+# define COLOR_MENU		0x3F3F3F
+# define COLOR_TEXT_DEF	0xE8E8E8
+# define COLOR_TEXT_SEL	0x00FF00
 
 #include <time.h>
 clock_t begin;
@@ -58,6 +62,12 @@ typedef struct	s_point3d
 	float	z;
 	t_color	color;
 }				t_point3d;
+typedef struct	s_int_vector3
+{
+	int	x;
+	int	y;
+	int	z;
+}				t_int_vector3;
 typedef struct	s_point2d
 {
 	int		x;
@@ -66,9 +76,9 @@ typedef struct	s_point2d
 }				t_point2d;
 typedef struct	s_transform
 {
-	t_point3d	rotation;
-	t_point3d	translation;
-	t_point3d	scale;
+	t_int_vector3	rotation;
+	t_int_vector3	translation;
+	t_point3d		scale;
 }				t_transform;
 typedef struct	s_map
 {
@@ -122,4 +132,10 @@ void			colorize_points(t_map *m);
 void			calc_pixel_color(t_point2d st_p, t_point2d end_p,
 													t_point2d *cur_p);
 int				point_lineside(t_point2d p1, t_point2d p2, t_point2d p);
+void			set_scale(t_view *v);
+void			reset(t_view *v);
+void			print_rotation(t_view *v);
+void			print_translation(t_view *v);
+void			print_scale(t_view *v);
+void			print_controls(t_view *v);
 #endif
